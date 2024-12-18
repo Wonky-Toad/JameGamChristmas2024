@@ -8,6 +8,8 @@ TagManager:
   - SpeedBoost
   - Obstacle
   - StartLine
+  - PC
+  - Bullet
   layers:
   - Default
   - TransparentFX
