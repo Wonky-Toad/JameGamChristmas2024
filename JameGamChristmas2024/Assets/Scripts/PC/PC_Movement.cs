@@ -12,11 +12,16 @@ public class PC_Movement : MonoBehaviour
     public float fl_lvl_time;
 
     public bool bl_startTimer = false;
+    public bool bl_crashed = false;
+    public bool bl_accelboostCoroutine_isRunning = false;
 
     public Vector3 v3_move_direction = Vector3.zero;
     public CharacterController cc_PC;
-    public UnityEngine.UI.Text T_levelTime; 
 
+    public UnityEngine.UI.Text T_levelTime;
+    public UnityEngine.UI.Text T_AccelerationBoostNumber;
+
+    public int in_acceleration_boost_number = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +32,7 @@ public class PC_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         MovePC();
         // if bl_startTimer is true then start timer
         if (bl_startTimer)
@@ -35,8 +41,17 @@ public class PC_Movement : MonoBehaviour
             fl_lvl_time = fl_lvl_time + Time.deltaTime;
             // log the seconds to UI text and converts to string ( with 2 decimals ) so it can be used and shown
             T_levelTime.text = fl_lvl_time.ToString("F2");
+          
         }
+        //if coroutine is not already running (bl will be false), and boost number is less than 10, call it, otherwise do not ,so it can have its delay or because the boost is full
+        // 
+        if (!bl_accelboostCoroutine_isRunning && in_acceleration_boost_number <10) { StartCoroutine(IncreaseAccelNum()); }
 
+        // log the accel boost num  to UI text and converts to string // hopefully no decimals as int
+        T_AccelerationBoostNumber.text = in_acceleration_boost_number.ToString();
+
+        // if up cursor or W key pressed call accel boost func
+        if(Input.GetKeyDown(KeyCode.W ) || Input.GetKeyDown(KeyCode.UpArrow)){ UseAccelerationBoost(); }
     }
 
     private void MovePC()
@@ -61,6 +76,8 @@ public class PC_Movement : MonoBehaviour
     {
         //set multipler to 0 to bring to a halt 
         SetSpeedMulti(0);
+        //set crashed to true so that accel num is not called if not moving 
+        bl_crashed = true;
         // now delay for x secs
         yield return new WaitForSeconds(3);
         // now if multi if less than or equal to 2 then reset multi
@@ -68,6 +85,30 @@ public class PC_Movement : MonoBehaviour
         //otherwise half the speed multi history and reset
         else { SetSpeedMulti(fl_speed_multiplier_history / 2); }
 
+    }
+
+    private void UseAccelerationBoost() 
+    {
+        // if player has 10 charges (accel boost num is 10)
+        if(in_acceleration_boost_number == 10)
+        {
+            // increase speed multi
+            fl_speed_multiplier++;
+            // reset boost
+            in_acceleration_boost_number = 0;
+        }
+    }
+
+    private IEnumerator IncreaseAccelNum()
+    {
+        // set runnign bool to true so that update only calls once during delay 
+        bl_accelboostCoroutine_isRunning = true;
+        // delay function 
+        yield return new WaitForSeconds(2);
+        // if the player is not crashed increase acecel boost charge number 
+        if (!bl_crashed) { in_acceleration_boost_number++; }
+        // then set isRunning to false for update to call 
+        bl_accelboostCoroutine_isRunning = false;
     }
 
     private void SetSpeedMulti(float newMulti)
@@ -98,12 +139,14 @@ public class PC_Movement : MonoBehaviour
             Debug.Log("Past Speed Multiplier: " + fl_speed_multiplier);
             fl_speed_multiplier++;
             Debug.Log("Current Speed Multiplier: " + fl_speed_multiplier);
+            //also increase 1 charge of accel boost num if has less than 10 charges 
+            if (in_acceleration_boost_number<10) { in_acceleration_boost_number++; }
 
         }
         //when enter obstacle trigger,  
         if (cl_trigger_collider.gameObject.tag == "Obstacle")
         {
-            //output last multipler to console, for debug n test
+            //output last multiplier to console, for debug n test
             Debug.Log("Past Speed Multiplier: " + fl_speed_multiplier);
             //set fl speed multi history to last speed so we can adjust it when pc moves again
             fl_speed_multiplier_history = fl_speed_multiplier;
@@ -113,7 +156,9 @@ public class PC_Movement : MonoBehaviour
 
         if(cl_trigger_collider.gameObject.tag == "StartLine")
         {
+            //stop update funcs for timer and accell boost when cross finish 
             bl_startTimer = true;
+            bl_accelboostCoroutine_isRunning = true;
         }
 
     }
