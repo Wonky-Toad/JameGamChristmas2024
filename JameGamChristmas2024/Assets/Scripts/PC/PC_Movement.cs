@@ -90,7 +90,7 @@ public class PC_Movement : MonoBehaviour
     private void UseAccelerationBoost() 
     {
         // if player has 10 charges (accel boost num is 10)
-        if(in_acceleration_boost_number == 10)
+        if(in_acceleration_boost_number >= 10)
         {
             // increase speed multi
             fl_speed_multiplier++;
