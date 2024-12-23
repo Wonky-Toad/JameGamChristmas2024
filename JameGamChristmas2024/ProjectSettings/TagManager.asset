@@ -10,6 +10,8 @@ TagManager:
   - StartLine
   - PC
   - Bullet
+  - UI
+  - EndPanel
   layers:
   - Default
   - TransparentFX

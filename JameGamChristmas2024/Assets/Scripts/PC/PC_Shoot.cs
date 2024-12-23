@@ -12,6 +12,8 @@ public class PC_Shoot : MonoBehaviour
 
     public float fl_bulletSpeed = 10;
 
+    public bool bl_delayActive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +23,16 @@ public class PC_Shoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) { SpawnProjectile();        /*Debug.Log("Space Pressed");*/ }
+        if (Input.GetKeyDown(KeyCode.Space) && !bl_delayActive) 
+        { 
+            SpawnProjectile();      /*Debug.Log("Space Pressed");*/
+            StartCoroutine(FireDelay());
+        }
     }
 
     private void SpawnProjectile() 
     {
+        bl_delayActive=true;
         // instantiate/spawn bullet and save  as variable 
         var bullet = Instantiate(go_projectile_prefab, tr_spawn_location.position, tr_spawn_location.rotation);
         //send bullet forward using rigidbody , multiply by speed and current speed multiplier 
@@ -36,6 +43,13 @@ public class PC_Shoot : MonoBehaviour
         var bullet2 = Instantiate(go_projectile_prefab, tr_spawn_location2.position, tr_spawn_location2.rotation);
         //send bullet forward using rigidbody , multiply by speed and current speed multiplier 
         bullet2.GetComponent<Rigidbody>().velocity = Vector3.forward * fl_bulletSpeed * sc_PC_Move.fl_speed_multiplier;
+
+    }
+
+    IEnumerator FireDelay()
+    {
+        yield return new WaitForSeconds(1);
+        bl_delayActive = false;
 
     }
 }

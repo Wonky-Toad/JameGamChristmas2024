@@ -14,38 +14,53 @@ public class PC_Movement : MonoBehaviour
     public bool bl_startTimer = false;
     public bool bl_crashed = false;
     public bool bl_accelboostCoroutine_isRunning = false;
+    public bool bl_LevelEnded = false; 
+
+    public bool bl_LevelStarted = false;
 
     public Vector3 v3_move_direction = Vector3.zero;
     public CharacterController cc_PC;
+    public GameObject go_canvas;
 
     public UnityEngine.UI.Text T_levelTime;
     public UnityEngine.UI.Text T_AccelerationBoostNumber;
 
     public int in_acceleration_boost_number = 0;
 
+    public string st_current_time_msg = "Current Time: ";
+
+    public GameObject go_ControlPanel;
+
     // Start is called before the first frame update
     void Start()
     {
         cc_PC = GetComponent<CharacterController>();
+
+        StartCoroutine(GameStart());
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        MovePC();
+        if(bl_LevelStarted) 
+        {
+            MovePC();
+            //if coroutine is not already running (bl will be false), and boost number is less than 10, call it, otherwise do not ,so it can have its delay or because the boost is full
+            // 
+            if (!bl_accelboostCoroutine_isRunning && in_acceleration_boost_number < 10) { StartCoroutine(IncreaseAccelNum()); }
+        }
+
         // if bl_startTimer is true then start timer
         if (bl_startTimer)
         {
             // count the frames per second, so summing them gives each second
             fl_lvl_time = fl_lvl_time + Time.deltaTime;
             // log the seconds to UI text and converts to string ( with 2 decimals ) so it can be used and shown
-            T_levelTime.text = fl_lvl_time.ToString("F2");
+            T_levelTime.text = st_current_time_msg + fl_lvl_time.ToString("F2");
           
         }
-        //if coroutine is not already running (bl will be false), and boost number is less than 10, call it, otherwise do not ,so it can have its delay or because the boost is full
-        // 
-        if (!bl_accelboostCoroutine_isRunning && in_acceleration_boost_number <10) { StartCoroutine(IncreaseAccelNum()); }
+
 
         // log the accel boost num  to UI text and converts to string // hopefully no decimals as int
         T_AccelerationBoostNumber.text = in_acceleration_boost_number.ToString();
@@ -71,6 +86,17 @@ public class PC_Movement : MonoBehaviour
 
     }
 
+    private IEnumerator GameStart() 
+    {
+        
+        
+        yield return new WaitForSeconds(2);
+        go_ControlPanel.SetActive(false);
+        bl_LevelStarted = true;
+
+
+    }
+
     // IEmuerator allows the function to be called at a delay 
     private IEnumerator Crash()
     {
@@ -84,6 +110,8 @@ public class PC_Movement : MonoBehaviour
         if (fl_speed_multiplier_history <= 2) { SetSpeedMulti(fl_speed_multiplier_history); }
         //otherwise half the speed multi history and reset
         else { SetSpeedMulti(fl_speed_multiplier_history / 2); }
+
+        bl_crashed = false;
 
     }
 
@@ -103,18 +131,47 @@ public class PC_Movement : MonoBehaviour
     {
         // set runnign bool to true so that update only calls once during delay 
         bl_accelboostCoroutine_isRunning = true;
+        
+        
+        
         // delay function 
         yield return new WaitForSeconds(2);
-        // if the player is not crashed increase acecel boost charge number 
-        if (!bl_crashed) { in_acceleration_boost_number++; }
-        // then set isRunning to false for update to call 
-        bl_accelboostCoroutine_isRunning = false;
+
+        //logic gate to stop when game over 
+
+        if (!bl_LevelEnded)
+        {
+            // if the player is not crashed increase acecel boost charge number 
+            if (!bl_crashed && in_acceleration_boost_number < 10) { in_acceleration_boost_number++; }
+            // then set isRunning to false for update to call
+            bl_accelboostCoroutine_isRunning = false;
+        }
+
     }
 
     private void SetSpeedMulti(float newMulti)
     {
         fl_speed_multiplier = newMulti;
         Debug.Log("Current Speed Multiplier: " + fl_speed_multiplier);
+    }
+    private void OnTriggerStay(Collider cl_trigger_collider)
+    {
+        if (cl_trigger_collider.gameObject.tag == "FinishLine")
+        {
+            //output a message saying you win on console (testing)
+            Debug.Log("You Win!");
+            //stop PC for now
+            SetSpeedMulti(0);
+
+            //stop timer
+            bl_startTimer = false;
+
+            //stop boost
+            bl_accelboostCoroutine_isRunning = true;
+
+            // set ended level bool to true
+            bl_LevelEnded = true;
+        }
     }
 
 
@@ -131,6 +188,12 @@ public class PC_Movement : MonoBehaviour
 
             //stop timer
             bl_startTimer = false;
+
+            //stop boost
+            bl_accelboostCoroutine_isRunning = true;
+
+            // set ended level bool to true
+            bl_LevelEnded = true;
         }
 
         //when enter object with SpeedBoost tag, increase speed multiplier to increase speed of PC
@@ -151,7 +214,7 @@ public class PC_Movement : MonoBehaviour
             //set fl speed multi history to last speed so we can adjust it when pc moves again
             fl_speed_multiplier_history = fl_speed_multiplier;
             //call crash function , use start coroutine to have delay 
-            StartCoroutine (Crash());
+            if (!bl_crashed) { StartCoroutine(Crash()); }
         }
 
         if(cl_trigger_collider.gameObject.tag == "StartLine")
