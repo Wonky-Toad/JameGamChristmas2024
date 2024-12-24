@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
 
         // set victory time based of level index 
         if(in_level_index == 1) { fl_victory_time = 25.00F;  }
-        else if (in_level_index == 2) { fl_victory_time = 40.00F; }
+        else if (in_level_index == 2) { fl_victory_time = 17.50F; }
         else if (in_level_index == 3) { fl_victory_time = 40.00F; }
 
         T_vicTime.text = (st_vic_time_msg+fl_victory_time.ToString("F2"));
@@ -72,6 +72,11 @@ public class GameManager : MonoBehaviour
         //load the current level index to reset scene for retart 
 
         SceneManager.LoadScene(in_level_index);
+    }
+
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(in_level_index+1);
     }
 
     // 0 is main menu
