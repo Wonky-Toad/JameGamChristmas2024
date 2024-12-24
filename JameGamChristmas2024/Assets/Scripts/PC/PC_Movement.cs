@@ -36,13 +36,15 @@ public class PC_Movement : MonoBehaviour
     {
         cc_PC = GetComponent<CharacterController>();
 
-        StartCoroutine(GameStart());
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        if (!bl_LevelStarted)
+        {
+            StartCoroutine(GameStart());
+        }
         if(bl_LevelStarted) 
         {
             MovePC();
@@ -91,8 +93,12 @@ public class PC_Movement : MonoBehaviour
         
         
         yield return new WaitForSeconds(2);
-        go_ControlPanel.SetActive(false);
-        bl_LevelStarted = true;
+        if (Input.GetMouseButtonDown(0)) 
+        {
+            go_ControlPanel.SetActive(false);
+            bl_LevelStarted = true;
+        }
+
 
 
     }
