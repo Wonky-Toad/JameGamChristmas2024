@@ -6,6 +6,7 @@ ScriptsOnlyBuild:
     - MainMenu
     - PC_Movement
     - PC_Shoot
+    - ScrollUV
     - Settings_Menu
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
@@ -105,6 +106,15 @@ ScriptsOnlyBuild:
     methodName: RestartLevel
   - assembly: Assembly-CSharp
     fullTypeName: GameManager
+    methodName: LoadNextLevel
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: BackToMenu
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
+    methodName: RestartLevel
+  - assembly: Assembly-CSharp
+    fullTypeName: GameManager
     methodName: BackToMenu
   sceneClasses:
     Assets/Scenes/Level_01.unity:
@@ -128,6 +138,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 54
       Script: {instanceID: 0}
+    - Class: 64
+      Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
     - Class: 81
@@ -139,21 +151,21 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1536}
+      Script: {instanceID: 1560}
     - Class: 114
-      Script: {instanceID: 1562}
+      Script: {instanceID: 1602}
     - Class: 114
-      Script: {instanceID: 1604}
+      Script: {instanceID: 1760}
     - Class: 114
-      Script: {instanceID: 1762}
+      Script: {instanceID: 2594}
     - Class: 114
-      Script: {instanceID: 2596}
+      Script: {instanceID: 2798}
     - Class: 114
-      Script: {instanceID: 2800}
+      Script: {instanceID: 3098}
     - Class: 114
-      Script: {instanceID: 3100}
+      Script: {instanceID: 3856}
     - Class: 114
-      Script: {instanceID: 3858}
+      Script: {instanceID: 4310}
     - Class: 114
       Script: {instanceID: 4628}
     - Class: 114
@@ -164,6 +176,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 5716}
     - Class: 114
       Script: {instanceID: 6034}
+    - Class: 114
+      Script: {instanceID: 7662}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -192,6 +206,101 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
+    - Class: 331
+      Script: {instanceID: 0}
+    - Class: 1953259897
+      Script: {instanceID: 0}
+    Assets/Scenes/Level_02.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 20
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 23
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 33
+      Script: {instanceID: 0}
+    - Class: 43
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 54
+      Script: {instanceID: 0}
+    - Class: 64
+      Script: {instanceID: 0}
+    - Class: 65
+      Script: {instanceID: 0}
+    - Class: 81
+      Script: {instanceID: 0}
+    - Class: 89
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 108
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 1560}
+    - Class: 114
+      Script: {instanceID: 1602}
+    - Class: 114
+      Script: {instanceID: 1760}
+    - Class: 114
+      Script: {instanceID: 2594}
+    - Class: 114
+      Script: {instanceID: 2798}
+    - Class: 114
+      Script: {instanceID: 3098}
+    - Class: 114
+      Script: {instanceID: 3856}
+    - Class: 114
+      Script: {instanceID: 4310}
+    - Class: 114
+      Script: {instanceID: 4628}
+    - Class: 114
+      Script: {instanceID: 5014}
+    - Class: 114
+      Script: {instanceID: 5260}
+    - Class: 114
+      Script: {instanceID: 5716}
+    - Class: 114
+      Script: {instanceID: 6034}
+    - Class: 114
+      Script: {instanceID: 7662}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 128
+      Script: {instanceID: 0}
+    - Class: 143
+      Script: {instanceID: 0}
+    - Class: 154
+      Script: {instanceID: 0}
+    - Class: 156
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
+    - Class: 198
+      Script: {instanceID: 0}
+    - Class: 199
+      Script: {instanceID: 0}
+    - Class: 213
+      Script: {instanceID: 0}
+    - Class: 218
+      Script: {instanceID: 0}
+    - Class: 222
+      Script: {instanceID: 0}
+    - Class: 223
+      Script: {instanceID: 0}
+    - Class: 224
+      Script: {instanceID: 0}
+    - Class: 331
+      Script: {instanceID: 0}
     - Class: 1953259897
       Script: {instanceID: 0}
     Assets/Scenes/MainMenu.unity:
@@ -216,23 +325,23 @@ ScriptsOnlyBuild:
     - Class: 104
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1562}
+      Script: {instanceID: 1560}
     - Class: 114
-      Script: {instanceID: 1604}
+      Script: {instanceID: 1602}
     - Class: 114
-      Script: {instanceID: 2182}
+      Script: {instanceID: 2180}
     - Class: 114
-      Script: {instanceID: 2596}
+      Script: {instanceID: 2594}
     - Class: 114
-      Script: {instanceID: 2800}
+      Script: {instanceID: 2798}
     - Class: 114
-      Script: {instanceID: 3100}
+      Script: {instanceID: 3098}
     - Class: 114
-      Script: {instanceID: 3536}
+      Script: {instanceID: 3534}
     - Class: 114
-      Script: {instanceID: 3838}
+      Script: {instanceID: 3836}
     - Class: 114
-      Script: {instanceID: 4070}
+      Script: {instanceID: 4068}
     - Class: 114
       Script: {instanceID: 4320}
     - Class: 114
@@ -272,12 +381,6 @@ ScriptsOnlyBuild:
     - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
-  - hash:
-      serializedVersion: 2
-      Hash: aa4d1f09c9910e57e024aa07e6f506c2
-    assemblyName: Assembly-CSharp
-    namespaceName: 
-    className: PC_Movement
   - hash:
       serializedVersion: 2
       Hash: 540882762544409cc4530e60db00e951
@@ -700,6 +803,12 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
+      Hash: 910dee77e25cc432d22a163701fd5762
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: ScrollUV
+  - hash:
+      serializedVersion: 2
       Hash: 9078325c2a6f6a2d9612ade897511860
     assemblyName: Unity.TextMeshPro
     namespaceName: TMPro
@@ -1108,6 +1217,12 @@ ScriptsOnlyBuild:
     className: SignalEmitter
   - hash:
       serializedVersion: 2
+      Hash: bed532a5b83d51e33634d252b01a10eb
+    assemblyName: Assembly-CSharp
+    namespaceName: 
+    className: PC_Movement
+  - hash:
+      serializedVersion: 2
       Hash: 02a47340661d2ea7c6d30e292cfef403
     assemblyName: Unity.VisualScripting.Core
     namespaceName: Unity.VisualScripting
@@ -1140,4 +1255,5 @@ ScriptsOnlyBuild:
   scenePathNames:
   - Assets/Scenes/MainMenu.unity
   - Assets/Scenes/Level_01.unity
-  playerPath: C:/Users/Ben/Downloads/JameGam2024Builds/build3/JameGamChristmas2024.exe
+  - Assets/Scenes/Level_02.unity
+  playerPath: C:/Users/Ben/Downloads/JameGam2024Builds/Build4/JameGamChristmas2024.exe

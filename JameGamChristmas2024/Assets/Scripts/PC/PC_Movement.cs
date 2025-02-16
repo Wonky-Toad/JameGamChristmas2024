@@ -31,6 +31,9 @@ public class PC_Movement : MonoBehaviour
 
     public GameObject go_ControlPanel;
 
+    public GameObject ca_main;
+    public GameObject ca_end;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -190,7 +193,12 @@ public class PC_Movement : MonoBehaviour
             //output a message saying you win on console (testing)
             Debug.Log("You Win!");
             //stop PC for now
-            SetSpeedMulti(0);
+            //SetSpeedMulti(0);
+
+            // swap camera
+            ca_main.SetActive(false);
+            ca_end.SetActive(true);
+
 
             //stop timer
             bl_startTimer = false;

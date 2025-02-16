@@ -312,6 +312,7 @@
 "Assets/Scripts/Obstacle.cs"
 "Assets/Scripts/PC/PC_Movement.cs"
 "Assets/Scripts/PC/PC_Shoot.cs"
+"Assets/Scripts/ScrollUV.cs"
 "Assets/Scripts/Settings_Menu.cs"
 "Assets/Scripts/UI/MainMenu.cs"
 -langversion:9.0
